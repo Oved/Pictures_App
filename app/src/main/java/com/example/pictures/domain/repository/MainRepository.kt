@@ -6,6 +6,6 @@ interface MainRepository {
 
     suspend fun getPhotos(): List<PhotoModel>
 
-    suspend fun deletePhoto(id: Int): List<PhotoModel>
+    suspend fun deletePhoto(id: Int)
     suspend fun deletePhotosSaved()
 }

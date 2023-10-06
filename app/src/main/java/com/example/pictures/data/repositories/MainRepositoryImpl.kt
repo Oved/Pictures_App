@@ -1,6 +1,7 @@
 package com.example.pictures.data.repositories
 
 import com.example.pictures.PicturesApplication.Companion.db
+import com.example.pictures.data.datasource.local.PhotosLocalDatasource
 import com.example.pictures.data.datasource.remote.PhotosRemoteDatasource
 import com.example.pictures.data.models.PhotoModel
 import com.example.pictures.data.models.toEntity
@@ -12,19 +13,20 @@ import com.example.pictures.tools.SharedPref.saveIdToDelete
 
 class MainRepositoryImpl : MainRepository {
 
-    private val dataSource = PhotosRemoteDatasource()
+    private val remoteDataSource = PhotosRemoteDatasource()
+    private val localDataSource = PhotosLocalDatasource()
 
     override suspend fun getPhotos(): List<PhotoModel> {
 
         //todo: Realizo la validación para traer la fotos y guardarlas localmente
-        val response = dataSource.getPhotosApi()
+        val response = remoteDataSource.getPhotosApi()
         return if (response.isNotEmpty()) {
-            db.getPhotoDao().deleteAllPhotos()
+            localDataSource.deleteAllPhotos()
             val data = response.map { it.toEntity() }
-            db.getPhotoDao().insertPhotos(data)
+            localDataSource.insertPhotos(data)
             response
         } else {
-            val responseDB = db.getPhotoDao().getPhotos()
+            val responseDB = localDataSource.getPhotos()
             val listPhotosDB =
                 if (responseDB.isNotEmpty()) responseDB.map { it.toModel() } else emptyList()
             listPhotosDB
@@ -32,19 +34,18 @@ class MainRepositoryImpl : MainRepository {
 
     }
 
-    override suspend fun deletePhoto(id: Int): List<PhotoModel> {
+    override suspend fun deletePhoto(id: Int) {
         //todo: Se elimina la foto del servicio y localmente, sino se almacena el id de la foto a borrar
-        val isDeleted = dataSource.isDeletedPhoto(id)
+        val isDeleted = remoteDataSource.isDeletedPhoto(id)
         if (!isDeleted)
             saveIdToDelete(id.toString())
-        db.getPhotoDao().deletePhotoById(id)
-        return db.getPhotoDao().getPhotos().map { it.toModel() }
+        localDataSource.deletePhotoById(id)
     }
 
     override suspend fun deletePhotosSaved() {
         //todo: Obtengo los id que no fueron eliminados en la consulta
         val idList = getIdListToDelete().map { it.toInt() }
-        idList.filter { dataSource.isDeletedPhoto(it) }.forEach {
+        idList.filter { remoteDataSource.isDeletedPhoto(it) }.forEach {
             clearIdList(it.toString())
         }
     }
