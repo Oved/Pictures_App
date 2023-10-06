@@ -1,4 +1,4 @@
-package com.example.pictures.presentation
+package com.example.pictures.presentation.activities
 
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
@@ -13,6 +13,8 @@ class SplashActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_splash)
+
+        //todo: Se crea el splash con un tiempo de espera
         lifecycleScope.launch {
             delay(2000)
             val intent = Intent(this@SplashActivity, MainActivity::class.java)

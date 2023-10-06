@@ -11,6 +11,8 @@ import com.example.pictures.data.datasource.local.entities.PhotoEntity
 @Dao
 interface PhotoDao {
 
+    //todo: Se crean las consultas que se requieren en este caso
+
     @Query("SELECT * FROM photo_table")
     suspend fun getPhotos() : List<PhotoEntity>
 

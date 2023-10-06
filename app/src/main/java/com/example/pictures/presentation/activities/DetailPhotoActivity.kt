@@ -1,16 +1,13 @@
-package com.example.pictures.presentation
+package com.example.pictures.presentation.activities
 
 import android.app.Activity
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import androidx.activity.viewModels
 import com.bumptech.glide.Glide
 import com.example.pictures.R
 import com.example.pictures.data.models.PhotoModel
 import com.example.pictures.databinding.ActivityDetailPhotoBinding
-import com.example.pictures.presentation.viewmodel.DetailViewModel
-import com.example.pictures.presentation.viewmodel.MainViewModel
 
 class DetailPhotoActivity : AppCompatActivity() {
 
@@ -28,6 +25,7 @@ class DetailPhotoActivity : AppCompatActivity() {
             photo = intent.getParcelableExtra("photo")!!
         }
 
+        //todo: Seteo los datos del objeto enviado desde la main
         binding.tvId.text = "Id ${photo.id}"
         binding.tvAlbumdId.text = "Album Id ${photo.albumId}"
         binding.tvTitle.text = photo.title
@@ -46,6 +44,7 @@ class DetailPhotoActivity : AppCompatActivity() {
 
         binding.backButton.setOnClickListener { finish() }
         binding.btnDelete.setOnClickListener {
+            //todo: Cuando se elimina devuelvo el id del item a borrar
             setResult(Activity.RESULT_OK, Intent().putExtra("id_item", photo.id))
             finish()
         }

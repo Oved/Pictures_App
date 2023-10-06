@@ -35,7 +35,7 @@ class PhotosAdapter(
 
     override fun onBindViewHolder(holder: PhotoViewHolder, position: Int) {
         val photo = photos[position]
-
+        //todo: Se establecen los valores de cada foto
         holder.card.setOnClickListener {
             itemClick(photo)
         }
@@ -54,6 +54,7 @@ class PhotosAdapter(
     }
 
     fun deleteItem(id : Int){
+        //todo: Se obtiene de la lista el item a eliminar
         val item = photos.find { it.id == id }
         if (item != null) {
             val pos = photos.indexOf(item)

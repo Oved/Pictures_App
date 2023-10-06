@@ -39,11 +39,13 @@ class MainViewModel : ViewModel() {
 
     fun deletePhoto(id:Int) {
         viewModelScope.launch {
+            //todo: Elimino la foto del servicio y de manera local
             repository.deletePhoto(id)
         }
     }
 
     fun deletePhotosSaved(){
+        //todo: Se realiza la petición de la fotos que no se realizó el delete
         viewModelScope.launch {
             repository.deletePhotosSaved()
         }

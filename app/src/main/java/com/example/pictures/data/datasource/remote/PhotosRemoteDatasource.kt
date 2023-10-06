@@ -7,6 +7,7 @@ import retrofit2.converter.gson.GsonConverterFactory
 
 class PhotosRemoteDatasource {
 
+    //todo: Se crea el objeto retrofit para la consulta
     private val retrofit = Retrofit.Builder().baseUrl("https://jsonplaceholder.typicode.com/")
         .addConverterFactory(GsonConverterFactory.create()).build()
 
@@ -15,6 +16,8 @@ class PhotosRemoteDatasource {
 
     suspend fun getPhotosApi(): List<PhotoModel> {
 
+        //todo: Se obtiene el listado de foto de la api y se valida
+        //todo: los casos de error
         return try {
             val response = apiService.getPhotos()
             if (response.isSuccessful && !response.body().isNullOrEmpty())
@@ -28,6 +31,7 @@ class PhotosRemoteDatasource {
     }
 
     suspend fun isDeletedPhoto(id: Int): Boolean {
+        //todo: Se obtiene la respuesta del servicio al eliminar la foto para saber si se debe almacenar o no el id
         return try {
             val response = apiService.deletePhoto(id.toString())
             if (response.isSuccessful && response.code() == 200)

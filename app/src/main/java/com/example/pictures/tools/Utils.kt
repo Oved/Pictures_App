@@ -10,14 +10,10 @@ class Utils {
     companion object{
         fun deserializeJsonPhotos(jsonString: String): List<PhotoModel> {
             try{
-                Log.e("ERROR2", "getPhotos: ${jsonString}",)
                 val gson = Gson()
                 val listType = object : TypeToken<List<PhotoModel>>() {}.type
-
-                Log.e("ERROR2", "getPhotos: ${listType}",)
                 return gson.fromJson(jsonString, listType)
             }catch (e:Exception){
-                Log.e("ERROR4", "getPhotos: ${e.message}", )
                 return emptyList()
             }
         }

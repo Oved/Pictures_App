@@ -1,4 +1,4 @@
-package com.example.pictures.presentation
+package com.example.pictures.presentation.activities
 
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
@@ -23,9 +23,13 @@ class MainActivity : AppCompatActivity() {
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
+        //todo: Realizo la petición de la fotos
         mainViewModel.getPhotos()
+
+        //todo: Valido al iniciar la actividad si hay fotos que no se hayan enviado la petición para eliminar
         mainViewModel.deletePhotosSaved()
 
+        //todo: Valido los estados que me provea el viewmodel
         mainViewModel.uiStates.observe(this) {
             when (it) {
                 is UiStates.Failure -> {
@@ -61,6 +65,8 @@ class MainActivity : AppCompatActivity() {
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
 
+        //todo: Obtengo el item a eliminar cuando se da eliminar en el detalle,
+        // para continuar la lógica desde la vista main
         if (requestCode == RESULT) {
             val id = data?.getIntExtra("id_item", 0)
             if (id != null) {

@@ -16,6 +16,7 @@ class MainRepositoryImpl : MainRepository {
 
     override suspend fun getPhotos(): List<PhotoModel> {
 
+        //todo: Realizo la validación para traer la fotos y guardarlas localmente
         val response = dataSource.getPhotosApi()
         return if (response.isNotEmpty()) {
             db.getPhotoDao().deleteAllPhotos()
@@ -31,12 +32,8 @@ class MainRepositoryImpl : MainRepository {
 
     }
 
-    override suspend fun getPhotosDB(): List<PhotoModel> {
-        val response = db.getPhotoDao().getPhotos()
-        return response.map { it.toModel() }
-    }
-
     override suspend fun deletePhoto(id: Int): List<PhotoModel> {
+        //todo: Se elimina la foto del servicio y localmente, sino se almacena el id de la foto a borrar
         val isDeleted = dataSource.isDeletedPhoto(id)
         if (!isDeleted)
             saveIdToDelete(id.toString())
@@ -45,6 +42,7 @@ class MainRepositoryImpl : MainRepository {
     }
 
     override suspend fun deletePhotosSaved() {
+        //todo: Obtengo los id que no fueron eliminados en la consulta
         val idList = getIdListToDelete().map { it.toInt() }
         idList.filter { dataSource.isDeletedPhoto(it) }.forEach {
             clearIdList(it.toString())

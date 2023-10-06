@@ -14,6 +14,7 @@ data class PhotoModel(
     val thumbnailUrl: String
 ) : Parcelable
 
+//todo: Se mappean los datos para separar el tipo de objeto a usar en cada clase
 fun PhotoEntity.toModel() = PhotoModel(albumId,id,title,url,thumbnailUrl)
 fun PhotoModel.toEntity() = PhotoEntity(id,albumId,title,url,thumbnailUrl)
 

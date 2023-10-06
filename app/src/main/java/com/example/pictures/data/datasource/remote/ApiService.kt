@@ -8,6 +8,8 @@ import retrofit2.http.Path
 
 interface ApiService {
 
+    //todo: Se crean los métodos a usan en el servicio
+
     @GET("photos")
     suspend fun getPhotos() : Response<List<PhotoModel>>
 
