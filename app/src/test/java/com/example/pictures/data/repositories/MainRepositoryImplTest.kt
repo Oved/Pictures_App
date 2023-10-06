@@ -15,15 +15,15 @@ class MainRepositoryImplTest{
 
     @RelaxedMockK
     private lateinit var photoRemoteDatasource : PhotosRemoteDatasource
-    private lateinit var photoLocalDatasource : PhotosLocalDatasource
+    @RelaxedMockK
     private lateinit var repository : MainRepositoryImpl
+    @RelaxedMockK
+    private lateinit var photoLocalDatasource : PhotosLocalDatasource
 
     @Before
     fun onBefore(){
         MockKAnnotations.init(this)
-        repository = MainRepositoryImpl()
-        photoRemoteDatasource = PhotosRemoteDatasource()
-        photoLocalDatasource = PhotosLocalDatasource()
+        repository = MainRepositoryImpl(PhotosRemoteDatasource(),PhotosLocalDatasource())
     }
 
     @Test

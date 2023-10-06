@@ -10,10 +10,11 @@ import com.example.pictures.tools.SharedPref.clearIdList
 import com.example.pictures.tools.SharedPref.getIdListToDelete
 import com.example.pictures.tools.SharedPref.saveIdToDelete
 
-class MainRepositoryImpl : MainRepository {
+class MainRepositoryImpl(
+    private val remoteDataSource: PhotosRemoteDatasource,
+    private val localDataSource: PhotosLocalDatasource
+) : MainRepository {
 
-    private val remoteDataSource = PhotosRemoteDatasource()
-    private val localDataSource = PhotosLocalDatasource()
 
     override suspend fun getPhotos(): List<PhotoModel> {
 

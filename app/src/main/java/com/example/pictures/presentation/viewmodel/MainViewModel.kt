@@ -4,13 +4,15 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.example.pictures.data.datasource.local.PhotosLocalDatasource
+import com.example.pictures.data.datasource.remote.PhotosRemoteDatasource
 import com.example.pictures.data.repositories.MainRepositoryImpl
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
 
 class MainViewModel : ViewModel() {
 
-    private val repository = MainRepositoryImpl()
+    private val repository = MainRepositoryImpl(PhotosRemoteDatasource(), PhotosLocalDatasource())
 
     private val _uiStates = MutableLiveData<UiStates>()
 
@@ -35,14 +37,14 @@ class MainViewModel : ViewModel() {
         }
     }
 
-    fun deletePhoto(id:Int) {
+    fun deletePhoto(id: Int) {
         viewModelScope.launch {
             //todo: Elimino la foto del servicio y de manera local
             repository.deletePhoto(id)
         }
     }
 
-    fun deletePhotosSaved(){
+    fun deletePhotosSaved() {
         //todo: Se realiza la petición de la fotos que no se realizó el delete
         viewModelScope.launch {
             repository.deletePhotosSaved()
