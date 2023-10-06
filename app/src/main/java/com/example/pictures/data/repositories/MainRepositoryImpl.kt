@@ -1,6 +1,5 @@
 package com.example.pictures.data.repositories
 
-import com.example.pictures.PicturesApplication.Companion.db
 import com.example.pictures.data.datasource.local.PhotosLocalDatasource
 import com.example.pictures.data.datasource.remote.PhotosRemoteDatasource
 import com.example.pictures.data.models.PhotoModel

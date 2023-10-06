@@ -1,12 +1,10 @@
 package com.example.pictures.presentation.viewmodel
 
-import android.content.Context
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.pictures.data.repositories.MainRepositoryImpl
-import com.example.pictures.tools.InternetConnection.isNetworkAvailable
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
 

@@ -1,6 +1,5 @@
 package com.example.pictures.data.datasource.remote
 
-import android.util.Log
 import com.example.pictures.data.models.PhotoModel
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
