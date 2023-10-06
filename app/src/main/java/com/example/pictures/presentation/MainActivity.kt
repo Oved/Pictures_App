@@ -16,13 +16,15 @@ class MainActivity : AppCompatActivity() {
     private lateinit var binding: ActivityMainBinding
     private lateinit var adapter: PhotosAdapter
     private val mainViewModel: MainViewModel by viewModels()
+    private val RESULT = 10
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        mainViewModel.getPhotos(this@MainActivity)
+        mainViewModel.getPhotos()
+        mainViewModel.deletePhotosSaved()
 
         mainViewModel.uiStates.observe(this) {
             when (it) {
@@ -45,7 +47,7 @@ class MainActivity : AppCompatActivity() {
                     adapter = PhotosAdapter(this, it.listPhotos) { photo ->
                         val intent = Intent(this@MainActivity, DetailPhotoActivity::class.java)
                         intent.putExtra("photo", photo)
-                        startActivity(intent)
+                        startActivityForResult(intent, RESULT)
                     }
                     binding.recyclerPhotos.layoutManager = LinearLayoutManager(this)
                     binding.recyclerPhotos.adapter = adapter
@@ -54,5 +56,18 @@ class MainActivity : AppCompatActivity() {
             }
         }
 
+    }
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+
+        if (requestCode == RESULT) {
+            val id = data?.getIntExtra("id_item", 0)
+            if (id != null) {
+                adapter.deleteItem(id)
+                mainViewModel.deletePhoto(id)
+            }
+
+        }
     }
 }

@@ -20,28 +20,33 @@ class MainViewModel : ViewModel() {
 
     var jobs: Job? = null
 
-    fun getPhotos(context: Context) {
+    fun getPhotos() {
 
         jobs?.cancel()
         jobs = viewModelScope.launch {
 
             _uiStates.value = UiStates.Progress
 
-            if (isNetworkAvailable(context)) {
-                val photosResponse = repository.getPhotos()
-                //TODO: guardar la fotos de manera local
-
+            val photosResponse = repository.getPhotos()
+            if (photosResponse.isNotEmpty()) {
                 _uiStates.value = UiStates.Success(photosResponse)
-
             } else {
-                val photosDB = repository.getPhotosDB()
-
-                if (photosDB.isNotEmpty())
-                    _uiStates.value = UiStates.Success(photosDB)
-
+                _uiStates.value = UiStates.Failure("Error al traer la información")
             }
-        }
 
+        }
+    }
+
+    fun deletePhoto(id:Int) {
+        viewModelScope.launch {
+            repository.deletePhoto(id)
+        }
+    }
+
+    fun deletePhotosSaved(){
+        viewModelScope.launch {
+            repository.deletePhotosSaved()
+        }
     }
 
 }

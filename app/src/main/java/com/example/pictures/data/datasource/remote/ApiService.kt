@@ -12,5 +12,5 @@ interface ApiService {
     suspend fun getPhotos() : Response<List<PhotoModel>>
 
     @DELETE("photos/{id}")
-    suspend fun deletePhoto(@Path("id") id: String) : Response<String>
+    suspend fun deletePhoto(@Path("id") id: String) : Response<Void>
 }

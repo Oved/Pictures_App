@@ -1,5 +1,6 @@
 package com.example.pictures.data.datasource.remote
 
+import android.util.Log
 import com.example.pictures.data.models.PhotoModel
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
@@ -12,7 +13,7 @@ class PhotosRemoteDatasource {
     private val apiService = retrofit.create(ApiService::class.java)
 
 
-    suspend fun getPhotos(): List<PhotoModel> {
+    suspend fun getPhotosApi(): List<PhotoModel> {
 
         return try {
             val response = apiService.getPhotos()
@@ -26,7 +27,16 @@ class PhotosRemoteDatasource {
         }
     }
 
-    suspend fun deletePhoto(id: Int) {
+    suspend fun isDeletedPhoto(id: Int): Boolean {
+        return try {
+            val response = apiService.deletePhoto(id.toString())
+            if (response.isSuccessful && response.code() == 200)
+                return true
+            else
+                error("Error en la petición")
 
+        } catch (e: Exception) {
+            false
+        }
     }
 }

@@ -53,8 +53,12 @@ class PhotosAdapter(
         return photos.size
     }
 
-    fun updateData(newPhotos: List<PhotoModel>) {
-        photos = newPhotos
-        notifyDataSetChanged()  // Notifica al RecyclerView después de actualizar los datos
+    fun deleteItem(id : Int){
+        val item = photos.find { it.id == id }
+        if (item != null) {
+            val pos = photos.indexOf(item)
+            photos = photos.filterNot { it.id == id }
+            notifyItemRemoved(pos)
+        }
     }
 }
